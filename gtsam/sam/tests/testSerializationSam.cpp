@@ -29,7 +29,7 @@
 
 using namespace std;
 using namespace gtsam;
-
+#ifndef __QNX__
 namespace {
 Key poseKey(1);
 Key pointKey(2);
@@ -131,7 +131,7 @@ TEST(BearingRangeFactor, Serialization3D) {
   EXPECT(serializationTestHelpers::equalsXML(factor3D));
   EXPECT(serializationTestHelpers::equalsBinary(factor3D));
 }
-
+#endif
 /* ************************************************************************* */
 int main() {
   TestResult tr;

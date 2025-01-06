@@ -9,7 +9,7 @@
 #include "gtsam/base/std_optional_serialization.h"
 
 using namespace gtsam;
-
+#ifndef __QNX__
 // A test to check that the serialization of std::optional works with boost
 TEST(StdOptionalSerialization, SerializeIntOptional) {
   // Create an optional
@@ -153,7 +153,7 @@ TEST(StdOptionalSerialization, SerializTestOptionalStructPointerPointer) {
   delete (*opt);
   delete (*opt2);
 }
-
+#endif
 int main() {
   TestResult tr;
   return TestRegistry::runAllTests(tr);

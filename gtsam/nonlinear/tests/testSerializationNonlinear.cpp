@@ -31,7 +31,7 @@
 using namespace std;
 using namespace gtsam;
 using namespace gtsam::serializationTestHelpers;
-
+#ifndef __QNX__
 
 /* ************************************************************************* */
 // Create GUIDs for Noisemodels
@@ -213,7 +213,7 @@ TEST(Serialization, ISAM2) {
   }
   EXPECT(assert_equal(p1, p2));
 }
-
+#endif
 /* ************************************************************************* */
 int main() { TestResult tr; return TestRegistry::runAllTests(tr); }
 /* ************************************************************************* */

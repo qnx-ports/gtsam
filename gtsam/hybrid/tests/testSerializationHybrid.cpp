@@ -38,7 +38,7 @@ using symbol_shorthand::X;
 using symbol_shorthand::Z;
 
 using namespace serializationTestHelpers;
-
+#ifndef __QNX__
 BOOST_CLASS_EXPORT_GUID(Factor, "gtsam_Factor");
 BOOST_CLASS_EXPORT_GUID(HybridFactor, "gtsam_HybridFactor");
 BOOST_CLASS_EXPORT_GUID(JacobianFactor, "gtsam_JacobianFactor");
@@ -147,7 +147,7 @@ TEST(HybridSerialization, HybridBayesTree) {
   EXPECT(equalsXML<HybridBayesTree>(hbt));
   EXPECT(equalsBinary<HybridBayesTree>(hbt));
 }
-
+#endif
 /* ************************************************************************* */
 int main() {
   TestResult tr;

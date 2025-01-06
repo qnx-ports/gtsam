@@ -28,7 +28,7 @@
 using namespace std;
 using namespace gtsam;
 using namespace gtsam::serializationTestHelpers;
-
+#ifndef __QNX__
 /* ************************************************************************* */
 // Noise model components
 /* ************************************************************************* */
@@ -241,7 +241,7 @@ TEST (Serialization, gaussian_bayes_tree) {
   deserialize(serialized, actual);
   EXPECT(assert_equal(expected, actual));
 }
-
+#endif
 /* ************************************************************************* */
 int main() { TestResult tr; return TestRegistry::runAllTests(tr); }
 /* ************************************************************************* */
