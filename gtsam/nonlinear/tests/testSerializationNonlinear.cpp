@@ -31,7 +31,6 @@
 using namespace std;
 using namespace gtsam;
 using namespace gtsam::serializationTestHelpers;
-#ifndef __QNX__
 
 /* ************************************************************************* */
 // Create GUIDs for Noisemodels
@@ -153,9 +152,15 @@ TEST(Serialization, NoiseModelFactor1_backwards_compatibility) {
 
   // Deserialize XML
   PriorFactor<Pose3> factor_deserialized_xml = PriorFactor<Pose3>();
+  #if !defined(__QNX__)
   deserializeFromXMLFile(GTSAM_SOURCE_TREE_DATASET_DIR
                          "/../../gtsam/nonlinear/tests/priorFactor.xml",
                          factor_deserialized_xml);
+  #else
+  bool c = deserializeFromXMLFile(
+                        "priorFactor.xml",
+                        factor_deserialized_xml);
+  #endif
   EXPECT(assert_equal(factor, factor_deserialized_xml));
 #endif
 }
@@ -213,7 +218,7 @@ TEST(Serialization, ISAM2) {
   }
   EXPECT(assert_equal(p1, p2));
 }
-#endif
+
 /* ************************************************************************* */
 int main() { TestResult tr; return TestRegistry::runAllTests(tr); }
 /* ************************************************************************* */

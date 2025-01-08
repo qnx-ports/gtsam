@@ -58,7 +58,7 @@
 using namespace std;
 using namespace gtsam;
 using namespace gtsam::serializationTestHelpers;
-#ifndef __QNX__
+
 // Creating as many permutations of factors as possible
 typedef PriorFactor<Point2>                 PriorFactorPoint2;
 typedef PriorFactor<StereoPoint2>           PriorFactorStereoPoint2;
@@ -617,7 +617,11 @@ static GaussianFactorGraph read(const string& name) {
 
 /* ************************************************************************* */
 // Read from XML file
+#if !defined(__QNX__)
 TEST(SubgraphSolver, Solves) {
+#else
+TEST(SubgraphSolver){
+#endif
   using gtsam::example::planarGraph;
 
   // Create preconditioner
@@ -673,7 +677,8 @@ TEST(SubgraphSolver, Solves) {
     EXPECT(assert_equal(values_x2.vector(ordering), solveT_x));
   }
 }
-#endif
+//#endif
+
 /* ************************************************************************* */
 int main() { TestResult tr; return TestRegistry::runAllTests(tr); }
 /* ************************************************************************* */

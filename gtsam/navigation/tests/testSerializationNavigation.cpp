@@ -31,7 +31,7 @@
 using namespace std;
 using namespace gtsam;
 using namespace gtsam::serializationTestHelpers;
-#ifndef __QNX__
+
 BOOST_CLASS_EXPORT_GUID(noiseModel::Constrained, "gtsam_noiseModel_Constrained")
 BOOST_CLASS_EXPORT_GUID(noiseModel::Diagonal, "gtsam_noiseModel_Diagonal")
 BOOST_CLASS_EXPORT_GUID(noiseModel::Gaussian, "gtsam_noiseModel_Gaussian")
@@ -132,7 +132,7 @@ TEST(Pose3AttitudeFactor, Serialization) {
   EXPECT(serializationTestHelpers::equalsXML(factor));
   EXPECT(serializationTestHelpers::equalsBinary(factor));
 }
-#endif
+
 /* ************************************************************************* */
 int main() {
   TestResult tr;

@@ -27,7 +27,7 @@
 #include <CppUnitLite/TestHarness.h>
 
 #include <iostream>
-#ifndef __QNX__
+
 namespace {
 static const double rankTol = 1.0;
 static const double sigma = 0.1;
@@ -96,7 +96,7 @@ TEST(SerializationSlam, SmartProjectionPoseFactor2) {
   EXPECT(equalsXML(factor));
   EXPECT(equalsBinary(factor));
 }
-#endif
+
 /* ************************************************************************* */
 int main() {
   TestResult tr;
