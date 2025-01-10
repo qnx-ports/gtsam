@@ -672,7 +672,6 @@ TEST(SubgraphSolver, Solves) {
     EXPECT(assert_equal(values_x2.vector(ordering), solveT_x));
   }
 }
-//#endif
 
 /* ************************************************************************* */
 int main() { TestResult tr; return TestRegistry::runAllTests(tr); }
