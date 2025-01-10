@@ -617,63 +617,87 @@ static GaussianFactorGraph read(const string& name) {
 
 /* ************************************************************************* */
 // Read from XML file
-#if !defined(__QNX__)
 TEST(SubgraphSolver, Solves) {
-#else
-TEST(SubgraphSolver){
-#endif
   using gtsam::example::planarGraph;
+  #include <iostream> //QNX
+  std::cout<<"HELLO!!!!!!!!!!"<<std::endl; //QNX
 
   // Create preconditioner
   SubgraphPreconditioner system;
+  std::cout<<"HELLO2!!!!!!!!!!"<<std::endl; //QNX
 
   // We test on three different graphs
   const auto Ab1 = planarGraph(3).first;
+  std::cout<<"HELLO3!!!!!!!!!!"<<std::endl; //QNX
   const auto Ab2 = read("toy3D");
+  std::cout<<"HELLO4!!!!!!!!!!"<<std::endl; //QNX
   const auto Ab3 = read("randomGrid3D");
+  std::cout<<"HELLO5!!!!!!!!!!"<<std::endl; //QNX
 
+int x = 0; //QNX
   // For all graphs, test solve and solveTranspose
   for (const auto& Ab : {Ab1, Ab2, Ab3}) {
+    std::cout<<"iteraton"<<x++<<std::endl; //QNX
     // Call build, a non-const method needed to make solve work :-(
     KeyInfo keyInfo(Ab);
     std::map<Key, Vector> lambda;
+    std::cout<<"A"<<std::endl; //QNX
     system.build(Ab, keyInfo, lambda);
-
+    std::cout<<"B"<<std::endl; //QNX
     // Create a perturbed (non-zero) RHS
     const auto xbar = system.Rc1().optimize();  // merely for use in zero below
+    std::cout<<"C"<<std::endl; //QNX
     auto values_y = VectorValues::Zero(xbar);
+    std::cout<<"D"<<std::endl; //QNX
     auto it = values_y.begin();
+    std::cout<<"E"<<std::endl; //QNX
     it->second.setConstant(100);
     ++it;
     it->second.setConstant(-100);
+    std::cout<<"F"<<std::endl; //QNX
 
     // Solve the VectorValues way
     auto values_x = system.Rc1().backSubstitute(values_y);
+    std::cout<<"G"<<std::endl; //QNX
 
     // Solve the matrix way, this really just checks BN::backSubstitute
     // This only works with Rc1 ordering, not with keyInfo !
     // TODO(frank): why does this not work with an arbitrary ordering?
     const auto ord = system.Rc1().ordering();
+    std::cout<<"H"<<std::endl; //QNX
     const Matrix R1 = system.Rc1().matrix(ord).first;
+    std::cout<<"I"<<std::endl; //QNX
     auto ord_y = values_y.vector(ord);
+    std::cout<<"J"<<std::endl; //QNX
     auto vector_x = R1.inverse() * ord_y;
+    std::cout<<"K"<<std::endl; //QNX
     EXPECT(assert_equal(vector_x, values_x.vector(ord)));
+    std::cout<<"L"<<std::endl; //QNX
 
     // Test that 'solve' does implement x = R^{-1} y
     // We do this by asserting it gives same answer as backSubstitute
     // Only works with keyInfo ordering:
     const auto ordering = keyInfo.ordering();
+    std::cout<<"M"<<std::endl; //QNX
     auto vector_y = values_y.vector(ordering);
+    std::cout<<"N"<<std::endl; //QNX
     const size_t N = R1.cols();
+    std::cout<<"O"<<std::endl; //QNX
     Vector solve_x = Vector::Zero(N);
+    std::cout<<"P"<<std::endl; //QNX
     system.solve(vector_y, solve_x);
+    std::cout<<"Q"<<std::endl; //QNX
     EXPECT(assert_equal(values_x.vector(ordering), solve_x));
+    std::cout<<"R"<<std::endl; //QNX
 
     // Test that transposeSolve does implement x = R^{-T} y
     // We do this by asserting it gives same answer as backSubstituteTranspose
     auto values_x2 = system.Rc1().backSubstituteTranspose(values_y);
+    std::cout<<"S"<<std::endl; //QNX
     Vector solveT_x = Vector::Zero(N);
+    std::cout<<"T"<<std::endl; //QNX
     system.transposeSolve(vector_y, solveT_x);
+    std::cout<<""<<std::endl; //QNX
     EXPECT(assert_equal(values_x2.vector(ordering), solveT_x));
   }
 }
